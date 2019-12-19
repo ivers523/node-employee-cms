@@ -5,13 +5,13 @@ const cTable = require('console.table');
 const connection = mysql.createConnection({
   host: "localhost",
 
-  // Your port; if not 3306
+  // May need to change port information for connection
   port: process.env.PORT || 8889,
 
-  // Your username
+  //  username
   user: "root",
 
-  // Your password
+  //  password / db name
   password: "root",
   database: "employeeDB"
 });
@@ -21,7 +21,7 @@ connection.connect(function (err) {
   console.log("connected as id " + connection.threadId);
   runPrompt();
 });
-
+// main menu
 function runPrompt() {
   inquirer
     .prompt({
@@ -44,7 +44,6 @@ function runPrompt() {
       ]
     })
     .then(function (answer) {
-
       switch (answer.start) {
         case "View departments":
           viewDepartments();
@@ -80,9 +79,7 @@ function runPrompt() {
       }
     });
 }
-
-// Create fxns for each case. should be recursive.
-// IMPLEMENT "BACK" function
+// Create fxns for each case. should be *recursive*.
 function viewDepartments() {
   const query = connection.query("SELECT * FROM department", function (err, res) {
     if (err) throw err;
@@ -91,17 +88,14 @@ function viewDepartments() {
   }
   )
 }
-
 function viewRoles() {
   const query = connection.query("SELECT * FROM role", function (err, res) {
     if (err) throw err;
     console.table(res);
     runPrompt();
-
   }
   )
 }
-
 function viewEmployees() {
   const query = connection.query("SELECT * FROM employee", function (err, res) {
     if (err) throw err;
@@ -110,8 +104,7 @@ function viewEmployees() {
   }
   )
 }
-
-// ADD function
+// ADD functions
 
 // function to adding
 function addDepartment() {
@@ -139,7 +132,7 @@ function addDepartment() {
         },
         function (err) {
           if (err) throw err;
-          console.log("Your department was created!");
+          console.log("Your department was created!\n");
           // re-prompt the user 
           runPrompt();
         }
@@ -183,7 +176,7 @@ function addRole() {
         },
         function (err) {
           if (err) throw err;
-          console.log("Your role was created!");
+          console.log("Your role was created!\n");
           // return to prompt
           runPrompt();
         }
@@ -218,7 +211,7 @@ function addEmployee() {
       {
         name: "managerid",
         type: "input",
-        message: "If your employee has a manager, please enter their EMPLOYEE ID"
+        message: "If your employee has a manager, please enter their EMPLOYEE ID. If no manager exists, enter 0." // need to fix this so entering 0 isn't required
       }
 
     ])
@@ -234,14 +227,14 @@ function addEmployee() {
         },
         function (err) {
           if (err) throw err;
-          console.log("Your employee was created!");
+          console.log("Your employee was created!\n");
           // return to prompt
           runPrompt();
         }
       );
     });
 }
-
+// UPDATE employee
 function updateEmployee() {
   console.log("Updating employee...\n");
   inquirer.prompt([
@@ -270,7 +263,7 @@ function updateEmployee() {
       ],
       function (err, res) {
         if (err) throw err;
-        console.log("Employee updated");
+        console.log("Employee updated\n");
         runPrompt();
       }
     )
