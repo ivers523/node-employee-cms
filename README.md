@@ -1,4 +1,4 @@
-# node-employee-cms [![HitCount](http://hits.dwyl.com/{username}/{project-name}.svg)](http://hits.dwyl.com/{username}/{project-name})
+# node-employee-cms [![HitCount](http://hits.dwyl.io/ivers523/node-employee-cms.svg)](http://hits.dwyl.io/ivers523/node-employee-cms)
 A simple command-line CMS for managing an organization created using NodeJS, inquirer, and MySQL. Allows an adminstrator to *view* and *add* departments, roles, and employees. Additional functionality includes the ability to *update* employees with new roles. Application includes the original seed file used for creating and populaitng the necessary databse in MySQL workbench. Created using the CRUD functions of persistent data storage.
 
 ### User story
