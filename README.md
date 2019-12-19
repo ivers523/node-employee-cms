@@ -1,4 +1,4 @@
-# node-employee-cms [![HitCount](http://hits.dwyl.io/ivers523/node-employee-cms.svg)](http://hits.dwyl.io/ivers523/node-employee-cms)
+# node-employee-cms [![HitCount](http://hits.dwyl.io/ivers523/node-employee-cms.svg)](http://hits.dwyl.io/ivers523/node-employee-cms) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 A simple command-line CMS for managing an organization created using NodeJS, inquirer, and MySQL. Allows an adminstrator to *view* and *add* departments, roles, and employees. Additional functionality includes the ability to *update* employees with new roles. Application includes the original seed file used for creating and populaitng the necessary databse in MySQL workbench. Created using the CRUD functions of persistent data storage.
 
 ### User story
