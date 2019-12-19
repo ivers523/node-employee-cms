@@ -38,6 +38,8 @@ function runPrompt() {
         "Add role",
         "Add employee",
         new inquirer.Separator(),
+        "Update employee",
+        new inquirer.Separator(),
         "Exit"
       ]
     })
@@ -66,6 +68,10 @@ function runPrompt() {
 
         case "Add employee":
           addEmployee();
+          break;
+
+        case "Update employee":
+          updateEmployee();
           break;
 
         case "Exit":
@@ -115,7 +121,7 @@ function addDepartment() {
       {
         name: "id",
         type: "input",
-        message: "What is the ID of the department you would like to add?"
+        message: "What is the DEPT. ID of the department you would like to add?"
       },
       {
         name: "name",
@@ -148,12 +154,12 @@ function addRole() {
       {
         name: "id",
         type: "input",
-        message: "What is the ID of the role you would like to add?"
+        message: "What is the ROLE ID of the role you would like to add?"
       },
       {
         name: "title",
         type: "input",
-        message: "What is the title of the department you would like to add?"
+        message: "What is the title of the role you would like to add?"
       },
       {
         name: "salary",
@@ -163,7 +169,7 @@ function addRole() {
       {
         name: "departmentid",
         type: "input",
-        message: "What is the department ID of the role you would like to add?"
+        message: "What is the DEPT ID of the role you would like to add?"
       }
     ])
     .then(function (res) {
@@ -192,7 +198,7 @@ function addEmployee() {
       {
         name: "id",
         type: "input",
-        message: "What is the ID number of the employee you would like to add?"
+        message: "What is the EMPLOYEE ID of the employee you would like to add?"
       },
       {
         name: "firstname",
@@ -207,12 +213,12 @@ function addEmployee() {
       {
         name: "roleid",
         type: "input",
-        message: "What is the role ID of the employee you would like to add?"
+        message: "What is the ROLE ID of the employee you would like to add?"
       },
       {
         name: "managerid",
         type: "input",
-        message: "If your employee has a manager, please enter their ID number"
+        message: "If your employee has a manager, please enter their EMPLOYEE ID"
       }
 
     ])
@@ -236,6 +242,38 @@ function addEmployee() {
     });
 }
 
+function updateEmployee() {
+  console.log("Updating employee...\n");
+  inquirer.prompt([
+    {
+      name: "employee",
+      type: "input",
+      message: "Enter the ID of the employee you'd like to update"
 
+    },
+    {
+      name: "newemployee",
+      type: "input",
+      message: "Enter the updated employee ROLE ID"
 
-
+    }
+  ]).then(function (res) {
+    const query = connection.query(
+      "UPDATE employee SET ? WHERE ?",
+      [
+        {
+          role_id: res.newemployee
+        },
+        {
+          id: res.employee
+        }
+      ],
+      function (err, res) {
+        if (err) throw err;
+        console.log("Employee updated");
+        runPrompt();
+      }
+    )
+  }
+  )
+}
