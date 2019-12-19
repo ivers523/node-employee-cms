@@ -18,14 +18,15 @@ const connection = mysql.createConnection({
 
 connection.connect(function (err) {
   if (err) throw err;
+  console.log("connected as id " + connection.threadId);
   runPrompt();
 });
 
 function runPrompt() {
   inquirer
     .prompt({
+      type: "list",
       name: "start",
-      type: "rawlist",
       message: "What would you like to do?",
       choices: [
         "View departments",
@@ -33,11 +34,13 @@ function runPrompt() {
         "View employees",
         "Add department",
         "Add role",
-        "Add employee"
+        "Add employee",
+        "Exit"
       ]
     })
     .then(function (answer) {
-      switch (answer.action) {
+
+      switch (answer.start) {
         case "View departments":
           viewDepartments();
           break;
@@ -61,28 +64,86 @@ function runPrompt() {
         case "Add employee":
           addEmployee();
           break;
+
+        case "Exit":
+          connection.end();
+          break;
       }
     });
 }
 
-
 // Create fxns for each case. should be recursive.
-
-
+// IMPLEMENT "BACK" function
 function viewDepartments() {
   inquirer
     .prompt({
-      name: "vdepartments",
+      name: "inputdepartment",
       type: "input",
-      message: "Please input a department."
+      message: "Please input a department name:"
     })
-    .then(function(answer) {
-      const query = "SELECT position, song, year FROM top5000 WHERE ?";
-      connection.query(query, { vdepartments: answer.vdepartments }, function(err, res) {
-        for (var i = 0; i < res.length; i++) {
-          console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
+    .then(function (res) {
+      const query = connection.query("SELECT * FROM department WHERE name=?", [`${res.inputdepartment}`], function (err, res) {
+        if (err) throw err;
+        for (let i = 0; i < res.length; i++) {
+          console.table(res);
+
         }
-        runSearch();
-      });
-    });
+      }
+      )
+    }
+    )
 }
+
+function viewRoles() {
+  inquirer
+    .prompt({
+      name: "inputrole",
+      type: "input",
+      message: "Please input a role title:"
+    })
+    .then(function (res) {
+      const query = connection.query("SELECT * FROM role WHERE title=?", [`${res.inputrole}`], function (err, res) {
+        if (err) throw err;
+        for (let i = 0; i < res.length; i++) {
+          console.table(res);
+
+        }
+      }
+      )
+    }
+    )
+}
+
+function viewEmployees() {
+  inquirer
+    .prompt({
+      name: "inputemployee",
+      type: "input",
+      message: "Please input an employee id:"
+    })
+    .then(function (res) {
+      const query = connection.query("SELECT * FROM employee WHERE id=?", [`${res.inputemployee}`], function (err, res) {
+        if (err) throw err;
+        for (let i = 0; i < res.length; i++) {
+          console.table(res);
+
+        }
+      }
+      )
+    }
+    )
+}
+
+// ADD function
+// example for adding data
+// function addRow() {
+//     connection.query(`INSERT INTO items(name, price, category) VALUES("${name}", ${price}, "${category}");`, function (err, res) {
+//         if (err) {
+//             console.log(err)
+//         }
+//         console.log('Item added!! Bringing you back to home page.');
+//         console.log("-----------------------------------");
+
+//         firstPrompt();
+//     });
+// }
